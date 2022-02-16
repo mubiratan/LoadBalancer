@@ -9,6 +9,9 @@ int main()
     Servidor servidor1("Servidor 1");
     Servidor servidor2("Servidor 2");
     Servidor servidor3("Servidor 3");
+    Servidor servidor4("Servidor 4");
+    Servidor servidor5("Servidor 5");
+    Servidor servidor6("Servidor 6");
 
     // Cria objeto LoadBalancer
     LoadBalancer loadBalancer;
@@ -17,6 +20,9 @@ int main()
     loadBalancer.setServidor(servidor1);
     loadBalancer.setServidor(servidor2);
     loadBalancer.setServidor(servidor3);
+    loadBalancer.setServidor(servidor4);
+    loadBalancer.setServidor(servidor5);
+    loadBalancer.setServidor(servidor6);
 
     // Lista servidores criados
     std::cout << "### Criando Servidores ###" << std::endl;
