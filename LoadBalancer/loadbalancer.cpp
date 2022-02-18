@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <boost/beast/core.hpp>
 #include <boost/beast/websocket.hpp>
+#include <boost/thread/thread.hpp>
 #include <servidor.h>
 
 LoadBalancer::LoadBalancer() {}
@@ -16,7 +17,10 @@ void LoadBalancer::init()
 {
     std::cout << "### LOAD BALANCER INICIALIZADO ###" << std::endl;
 
-    while(1)
+    // Thread que ordena a lista de srvidores
+    std::thread(ordenaListaServidores, std::ref(_loadBalancerServidores)).detach();
+
+    while(true)
     {
         tcp::socket socket{ioc};
         acceptor.accept(socket);
@@ -67,15 +71,24 @@ void LoadBalancer::processaRequisicao(const std::string & mensagem)
     std::cout << std::endl;
 }
 
+void LoadBalancer::ordenaListaServidores(std::vector<Servidor> &_loadBalancerServidores)
+{
+    while(true)
+    {
+        std::sort(_loadBalancerServidores.begin()
+                  , _loadBalancerServidores.end()
+                  , [] (Servidor &x, Servidor &y) { return x.getCountRequisicoes() > y.getCountRequisicoes();}
+                  );
+
+        boost::this_thread::sleep( boost::posix_time::seconds(2));
+    }
+}
+
 /**
  * Retorna servidor com menor carga
  */
 Servidor& LoadBalancer::retornaServidorMenorCarga()
 {
-    std::sort(_loadBalancerServidores.begin()
-              , _loadBalancerServidores.end()
-              , [] (Servidor &x, Servidor &y) { return x.getCountRequisicoes() > y.getCountRequisicoes();}
-              );
 
     return getListServidores().back();
 }
