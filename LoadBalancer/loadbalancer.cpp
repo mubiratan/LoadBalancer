@@ -23,6 +23,7 @@ void LoadBalancer::init()
 
         std::cout << "--- Socket Accepted ---" << std::endl;
 
+        // Thread que aguarda requisição
         std::thread{[this, q = std::move(socket)]() mutable {
             boost::beast::websocket::stream<tcp::socket> ws{std::move(q)};
 

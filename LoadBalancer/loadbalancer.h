@@ -17,6 +17,8 @@ private:
     boost::asio::io_context ioc{1};
     boost::asio::ip::tcp::acceptor acceptor{ioc, {address, port}};
     std::vector<Servidor> _loadBalancerServidores;
+    Servidor& retornaServidorMenorCarga();
+    void processaRequisicao(const std::string &);
 
 public:
     LoadBalancer();
@@ -24,10 +26,6 @@ public:
     void setServidor(Servidor &);
     Servidor &getServidor();
     std::vector<Servidor> &getListServidores();
-    Servidor& retornaServidorMenorCarga();
-    void processaRequisicao(const std::string &);
-
-
 };
 
 #endif // LOADBALANCER_H
