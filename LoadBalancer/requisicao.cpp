@@ -5,7 +5,7 @@ Requisicao::Requisicao(const std::string &nomeRequisicao)
     _nomeRequisicao = nomeRequisicao;
 }
 
-const std::string &Requisicao::getDescricaoRequisicao() const
+const std::string& Requisicao::getDescricaoRequisicao() const
 {
     return _descricaoRequisicao;
 }
