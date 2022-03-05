@@ -16,18 +16,18 @@ class LoadBalancer
 private:
     boost::asio::io_context ioc{1};
     boost::asio::ip::tcp::acceptor acceptor{ioc, {address, port}};
-    std::vector<Servidor> _loadBalancerServidores;
+    std::vector<Servidor*> _loadBalancerServidores;
 
-    Servidor& retornaServidorMenorCarga();
+    Servidor* retornaServidorMenorCarga();
     void processaRequisicao(const std::string &);
-    static void ordenaListaServidores(std::vector<Servidor> &);
+    static void ordenaListaServidores(std::vector<Servidor*>&);
 
 public:
     LoadBalancer();
     void init();
-    void setServidor(Servidor &);
-    Servidor &getServidor();
-    std::vector<Servidor> &getListServidores();
+    void setServidor(Servidor*);
+    Servidor* getServidor();
+    std::vector<Servidor*> getListServidores();
 };
 
 #endif // LOADBALANCER_H

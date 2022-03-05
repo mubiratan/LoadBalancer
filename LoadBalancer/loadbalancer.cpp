@@ -17,9 +17,13 @@ void LoadBalancer::init()
 {
     std::cout << "### LOAD BALANCER INICIALIZADO ###" << std::endl;
 
+    // Reserva tamanho do vetor de servidores
+    _loadBalancerServidores.reserve(5);
+
     // Thread que ordena a lista de srvidores
     std::thread(ordenaListaServidores, std::ref(_loadBalancerServidores)).detach();
 
+    // Loop principal
     while(true)
     {
         tcp::socket socket{ioc};
@@ -33,7 +37,7 @@ void LoadBalancer::init()
 
             ws.accept();
 
-            while(1)
+            while(true)
             {
                 boost::beast::flat_buffer buffer;
                 ws.read(buffer);
@@ -50,44 +54,47 @@ void LoadBalancer::init()
 /**
  * Processa a requisição do websocket
  */
-void LoadBalancer::processaRequisicao(const std::string & mensagem)
+void LoadBalancer::processaRequisicao(const std::string& mensagem)
 {
-    std::cout << mensagem << std::endl;
+    std::cout << "Mensagem enviada via Web Socket-> " << mensagem << std::endl;
 
     //Cria obejto requisicao
     Requisicao requisicao("Requisicao");
     requisicao.setDescricaoRequisicao(mensagem);
 
     // Retorna servidor com menor carga
-    retornaServidorMenorCarga().setRequisicao(std::move(requisicao));
+    retornaServidorMenorCarga()->setRequisicao(std::move(requisicao));
 
-    for(Servidor s : getListServidores())
+    for(Servidor* s : getListServidores())
     {
-        std::cout << "Nome Servidor: " << s.getServidorNome()
-                  << "  Qtd Requisições : " << s.getCountRequisicoes()
+        std::cout << "Nome Servidor: " << s->getServidorNome()
+                  << "  Qtd Requisições : " << s->getCountRequisicoes()
                   << std::endl;
     }
 
     std::cout << std::endl;
 }
 
-void LoadBalancer::ordenaListaServidores(std::vector<Servidor> &_loadBalancerServidores)
+void LoadBalancer::ordenaListaServidores(std::vector<Servidor*> &_loadBalancerServidores)
 {
     while(true)
     {
+        std::cout << "*** LISTA DE SERVIDORES ORDENADA ***\n" << std::endl;
+
         std::sort(_loadBalancerServidores.begin()
                   , _loadBalancerServidores.end()
-                  , [] (Servidor &x, Servidor &y) { return x.getCountRequisicoes() > y.getCountRequisicoes();}
+                  , [] (Servidor* x, Servidor* y) {
+                        return x->getCountRequisicoes() > y->getCountRequisicoes();}
                   );
 
-        boost::this_thread::sleep( boost::posix_time::seconds(2));
+        boost::this_thread::sleep(boost::posix_time::seconds(2));
     }
 }
 
 /**
  * Retorna servidor com menor carga
  */
-Servidor& LoadBalancer::retornaServidorMenorCarga()
+Servidor* LoadBalancer::retornaServidorMenorCarga()
 {
 
     return getListServidores().back();
@@ -96,7 +103,7 @@ Servidor& LoadBalancer::retornaServidorMenorCarga()
 /**
  * Insere servidor no vector
  */
-void LoadBalancer::setServidor(Servidor &servidor)
+void LoadBalancer::setServidor(Servidor* servidor)
 {
     _loadBalancerServidores.emplace_back(servidor);
 }
@@ -104,7 +111,7 @@ void LoadBalancer::setServidor(Servidor &servidor)
 /**
  * Retorna servidor do vector
  */
-Servidor& LoadBalancer::getServidor()
+Servidor* LoadBalancer::getServidor()
 {
     return _loadBalancerServidores.back();
 }
@@ -112,7 +119,7 @@ Servidor& LoadBalancer::getServidor()
 /**
  * Retorna lista de servidores
  */
-std::vector<Servidor>& LoadBalancer::getListServidores()
+std::vector<Servidor*> LoadBalancer::getListServidores()
 {
     return _loadBalancerServidores;
 }
