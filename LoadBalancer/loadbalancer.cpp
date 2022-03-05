@@ -18,7 +18,7 @@ void LoadBalancer::init()
     std::cout << "### LOAD BALANCER INICIALIZADO ###" << std::endl;
 
     // Thread que ordena a lista de srvidores
-    std::thread(ordenaListaServidores, std::ref(_loadBalancerServidores)).detach();
+    //std::thread(ordenaListaServidores, std::ref(_loadBalancerServidores)).detach();
 
     while(true)
     {
@@ -61,27 +61,27 @@ void LoadBalancer::processaRequisicao(const std::string & mensagem)
     // Retorna servidor com menor carga
     retornaServidorMenorCarga().setRequisicao(std::move(requisicao));
 
-    for(Servidor s : getListServidores())
-    {
-        std::cout << "Nome Servidor: " << s.getServidorNome()
-                  << "  Qtd Requisições : " << s.getCountRequisicoes()
-                  << std::endl;
-    }
+//    for(Servidor s : getListServidores())
+//    {
+//        std::cout << "Nome Servidor: " << s.getServidorNome()
+//                  << "  Qtd Requisições : " << s.getCountRequisicoes()
+//                  << std::endl;
+//    }
 
     std::cout << std::endl;
 }
 
 void LoadBalancer::ordenaListaServidores(std::vector<Servidor> &_loadBalancerServidores)
 {
-    while(true)
-    {
-        std::sort(_loadBalancerServidores.begin()
-                  , _loadBalancerServidores.end()
-                  , [] (Servidor &x, Servidor &y) { return x.getCountRequisicoes() > y.getCountRequisicoes();}
-                  );
+//    while(true)
+//    {
+//        std::sort(_loadBalancerServidores.begin()
+//                  , _loadBalancerServidores.end()
+//                  , [] (Servidor &x, Servidor &y) { return x.getCountRequisicoes() > y.getCountRequisicoes();}
+//                  );
 
-        boost::this_thread::sleep( boost::posix_time::seconds(2));
-    }
+//        boost::this_thread::sleep( boost::posix_time::seconds(2));
+//    }
 }
 
 /**
@@ -96,10 +96,10 @@ Servidor& LoadBalancer::retornaServidorMenorCarga()
 /**
  * Insere servidor no vector
  */
-void LoadBalancer::setServidor(Servidor &servidor)
-{
-    _loadBalancerServidores.emplace_back(servidor);
-}
+//void LoadBalancer::setServidor(Servidor* servidor)
+//{
+//    _loadBalancerServidores.emplace_back(servidor);
+//}
 
 /**
  * Retorna servidor do vector

@@ -25,7 +25,7 @@ private:
 public:
     LoadBalancer();
     void init();
-    void setServidor(Servidor &);
+    void setServidor(Servidor*);
     Servidor &getServidor();
     std::vector<Servidor> &getListServidores();
 };

@@ -7,18 +7,16 @@
 
 class Servidor
 {
-private:
-    int servidor_size = 10;
-    std::string _servidorNome;
-    int _countRequisicoes;
-
 public:
-    Servidor(std::string = "");
+    virtual ~Servidor() {};
+    std::string _servidorNome;
+    static int _countRequisicoes;
     std::vector<Requisicao> _servidorRequisicao;
 
-    const std::string &getServidorNome();
-    void setRequisicao(const Requisicao&);
+    virtual const std::string& getServidorNome() = 0;
+    virtual void setRequisicao(const Requisicao&) = 0;
     int getCountRequisicoes() const;
+    //virtual std::string operation() const = 0;
 };
 
 #endif // SERVIDOR_H
