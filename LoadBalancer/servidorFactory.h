@@ -2,13 +2,14 @@
 #define SERVIDORFACTORY_H
 #include "servidor.h"
 #include "servidorlinux.h"
+#include "servidorWindows.h"
 
 class ServidorFactory
 {
 public:
     virtual ~ServidorFactory(){};
     virtual Servidor* factoryMethod() const = 0;
-    void criarServidor() const;
+    Servidor* criarServidor() const;
 
 };
 

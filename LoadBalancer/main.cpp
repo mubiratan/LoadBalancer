@@ -3,41 +3,38 @@
 #include "servidor.h"
 #include "loadbalancer.h"
 #include "servidorlinux.h"
+#include "servidorWindows.h"
 #include "servidorFactory.h"
 #include "servidorFactoryLinux.h"
 #include "servidorFactoryWindows.h"
 
-
-void criar(const ServidorFactory& creator) {
-    creator.criarServidor();
-}
-
 int main()
 {
     // Cria os servidores através da fábrica
-    ServidorFactory* servidorLinux = new ServidorFactoryLinux();
-    criar(*servidorLinux);
+    ServidorFactoryLinux servidorFactoryLinux;
+    Servidor* servidorLinux = servidorFactoryLinux.criarServidor();
+    Servidor* servidorLinux2 = servidorFactoryLinux.criarServidor();
 
-    ServidorFactory* servidorWindows = new ServidorFactoryWindows();
-    criar(*servidorWindows);
+    ServidorFactoryWindows servidorFactoryWindows;
+    Servidor* servidorWindows = servidorFactoryWindows.criarServidor();
 
-    // Cria objeto LoadBalancer
-    //LoadBalancer loadBalancer;
+    //Cria objeto LoadBalancer
+    LoadBalancer loadBalancer;
 
     // Adciona servidores na lista do Load Balancer
-    //loadBalancer.setServidor(servidor1);
-//    loadBalancer.setServidor(servidor2);
-//    loadBalancer.setServidor(servidor3);
+    loadBalancer.setServidor(servidorLinux);
+    loadBalancer.setServidor(servidorWindows);
+    loadBalancer.setServidor(servidorLinux2);
 
-//    // Lista servidores criados
-//    std::cout << "### Criando Servidores ###" << std::endl;
-//    for(Servidor s : loadBalancer.getListServidores())
-//    {
-//        std::cout << s.getServidorNome() << std::endl;
-//    }
+    // Lista servidores criados
+    std::cout << "### Criando Servidores ###" << std::endl;
+    for(Servidor* s : loadBalancer.getListServidores())
+    {
+        std::cout << s->getServidorNome() << std::endl;
+    }
 
-//    // Inicia Load Balancer
-//    loadBalancer.init();
+    // Inicia Load Balancer
+    loadBalancer.init();
 
     return 0;
 }

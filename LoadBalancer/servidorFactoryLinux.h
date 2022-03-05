@@ -6,7 +6,7 @@ class ServidorFactoryLinux : public ServidorFactory
 {
 public:
     ServidorFactoryLinux();
-    Servidor* factoryMethod() const;
+    Servidor* factoryMethod() const override;
 };
 
 #endif // SERVIDORFACTORYLINUX_H

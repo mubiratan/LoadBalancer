@@ -13,7 +13,7 @@ void ServidorWindows::setRequisicao(const Requisicao& requisicao)
     ++_countRequisicoes;
 }
 
-//std::string ServidorLinux::operation() const
-//{
-//    return "Servidor Linux Criado";
-//}
+int ServidorWindows::getCountRequisicoes() const
+{
+    return _countRequisicoes;
+}

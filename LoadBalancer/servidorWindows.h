@@ -1,5 +1,5 @@
-#ifndef ServidorWindows_H
-#define ServidorWindows_h
+#ifndef SERVIDORWINDOWS_H
+#define SERVIDORWINDOWS_H
 #include "servidor.h"
 
 class ServidorWindows : public Servidor
@@ -10,7 +10,7 @@ public:
 
     const std::string& getServidorNome() override;
     void setRequisicao(const Requisicao&) override;
-    //std::string operation() const override;
+    int getCountRequisicoes() const override;
 };
 
-#endif // ServidorWindows
+#endif

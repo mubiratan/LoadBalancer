@@ -10,7 +10,7 @@ public:
 
     const std::string& getServidorNome() override;
     void setRequisicao(const Requisicao&) override;
-    //std::string operation() const override;
+    int getCountRequisicoes() const override;
 };
 
 #endif // SERVIDORLINUX_H

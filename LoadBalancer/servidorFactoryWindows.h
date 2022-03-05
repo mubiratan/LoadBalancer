@@ -6,7 +6,7 @@ class ServidorFactoryWindows : public ServidorFactory
 {
 public:
     ServidorFactoryWindows();
-    Servidor* factoryMethod() const;
+    Servidor* factoryMethod() const override;
 };
 
 #endif // ServidorFactoryConcretaWindows_H
