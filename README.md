@@ -10,4 +10,4 @@ Resumo: Load Balancer que aguarda requisição vinda de um websocket.
 - Digite algum texto e envie;
 - Na console irá exibir os 3 servidores e a quantidade de requisições;
 - Para cada nova requisição, um servidor com menos requisições é escolhido;
-- uma thread ordena a lista de servidores a cada 2 segundos.
+- Uma thread ordena a lista de servidores a cada 2 segundos.
